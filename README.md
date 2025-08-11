@@ -55,12 +55,15 @@ IST3134-Group-Assignment/
 - **Download Instructions:**  
   1. Sign up at [Kaggle](https://www.kaggle.com/) and generate an API token (`kaggle.json`).  
   2. Place `kaggle.json` in the `~/.kaggle/` directory.  
-  3. Download using the Kaggle API:  
+  3. Download using the Kaggle API:
      ```bash
+     mkdir kaggle
+     mv kaggle.json kaggle/
+     chmod 600 kaggle/kaggle.jsonexport KAGGLE_CONFIG_DIR=~/kaggle
+     pip3 install kaggle --user
      kaggle datasets download -d stackoverflow/stacksample
      unzip stacksample.zip
-     ```  
-
+     
 ---
 
 ## Project Versions
