@@ -128,8 +128,8 @@ It is assumed that the dataset (Questions.csv) is stored in an AWS S3 bucket nam
    df = spark.read.csv("s3a://stacksample/Questions.csv", header=True, inferSchema=True)
 
 3. **Run the following script for preprocessing**
-   ```bash
-   import re
+  ```bash
+  import re
   import nltk
   from nltk.corpus import stopwords
   from pyspark.sql import SparkSession
@@ -158,8 +158,8 @@ It is assumed that the dataset (Questions.csv) is stored in an AWS S3 bucket nam
                    .sort(col("count").desc())
 
   word_counts_df.show(20)
+  ```
 
-   
 4. **Write output to CSV**
    ```bash
    word_counts_df.coalesce(1).write.csv("s3a://stacksample/title_wordcount.csv", header=True, mode="overwrite")
