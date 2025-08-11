@@ -118,7 +118,9 @@ An in-memory distributed processing version using PySpark for faster performance
     hdfs dfs -rm -r /user/hadoop/output/wordcount_final
 
 ### PySpark Version
-
+- **Note:**  
+  - It is assumed that the dataset (Questions.csv) is stored in an AWS S3 bucket named stacksample. The dataset is ingested from Kaggle via the Kaggle API — steps for downloading the dataset using the Kaggle API have already been detailed above.
+    
 1. **Launch PySpark shell with AWS JARs for S3 access**
    ```bash
    pyspark --jars /home/hadoop/hadoop-aws-3.3.1.jar,/home/hadoop/aws-java-sdk-bundle-1.11.901.jar
@@ -129,12 +131,12 @@ An in-memory distributed processing version using PySpark for faster performance
 
 3. **Run the PySpark script for preprocessing**
    ```bash
-   python scripts/pyspark_preprocessing.py
+   python pyspark_preprocessing.py
 
 4. **Execute word count**
    ```bash
-   python scripts/pyspark_wordcount.py
-
+   python pyspark_wordcount.py
+   
 5. **Write output to CSV**
    ```bash
    word_counts_df.coalesce(1).write.csv("s3a://stacksample/title_wordcount.csv", header=True, mode="overwrite")
