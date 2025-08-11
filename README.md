@@ -32,6 +32,7 @@ IST3134-Group-Assignment/
 ├── wordcount.jar # Hadoop job JAR (generated locally)
 │
 ├── scripts/
+│ └── pyspark_preprocessing.py # PySpark preprocessing script
 │ └── pyspark_wordcount.py # PySpark word count script
 │
 ├── data/
@@ -120,13 +121,25 @@ An in-memory distributed processing version using PySpark for faster performance
 
 1. **Launch PySpark shell with AWS JARs for S3 access**
    ```bash
-   pyspark --jars hadoop-aws-3.3.1.jar,aws-java-sdk-bundle-1.11.901.jar
+   pyspark --jars /home/hadoop/hadoop-aws-3.3.1.jar,/home/hadoop/aws-java-sdk-bundle-1.11.901.jar
 
-2. **Run the PySpark script**
+2. **Read Data from S3**
+   ```bash
+   df = spark.read.csv("s3a://stacksample/Questions.csv", header=True, inferSchema=True)
+
+3. **Run the PySpark script for preprocessing**
+   ```bash
+   python scripts/pyspark_preprocessing.py
+
+4. **Execute word count**
    ```bash
    python scripts/pyspark_wordcount.py
-   
-3. **The PySpark job reads from and writes to S3 (ensure proper IAM permissions and bucket paths).**
+
+5. **Write output to CSV**
+   ```bash
+   word_counts_df.coalesce(1).write.csv("s3a://stacksample/title_wordcount.csv", header=True, mode="overwrite")
+      
+6. **Note: The PySpark job reads from and writes to S3 — ensure proper IAM permissions and bucket paths.**
 
 ---
 
