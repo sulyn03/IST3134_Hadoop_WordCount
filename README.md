@@ -82,7 +82,7 @@ A classic disk-based distributed computing implementation using Java MapReduce.
 
 An in-memory distributed processing version using PySpark for faster performance.
 
-- **Script:** `scripts/pyspark_wordcount.py`  
+- **Scripts:** `pyspark_preprocessing.py` `pyspark_wordcount.py`  
 - **Key Features:**  
   - Uses Spark DataFrame APIs with UDF-based text cleaning  
   - Reads/writes data directly from/to AWS S3  
