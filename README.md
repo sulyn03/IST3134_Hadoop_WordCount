@@ -31,8 +31,7 @@ IST3134-Group-Assignment/
 ├── build/ # Compiled classes (generated locally)
 ├── wordcount.jar # Hadoop job JAR (generated locally)
 │
-├── pyspark_preprocessing.py # PySpark preprocessing script
-├── pyspark_wordcount.py # PySpark word count script
+├── pyspark_preprocessing.py # PySpark script
 │
 ├── data/
 │ └── Questions.csv # Sample dataset (not included; see instructions)
@@ -82,7 +81,6 @@ A classic disk-based distributed computing implementation using Java MapReduce.
 
 An in-memory distributed processing version using PySpark for faster performance.
 
-- **Scripts:** `pyspark_preprocessing.py` `pyspark_wordcount.py`  
 - **Key Features:**  
   - Uses Spark DataFrame APIs with UDF-based text cleaning  
   - Reads/writes data directly from/to AWS S3  
@@ -129,19 +127,44 @@ It is assumed that the dataset (Questions.csv) is stored in an AWS S3 bucket nam
    ```bash
    df = spark.read.csv("s3a://stacksample/Questions.csv", header=True, inferSchema=True)
 
-3. **Run the PySpark script for preprocessing**
+3. **Run the following script for preprocessing**
    ```bash
-   python pyspark_preprocessing.py
+   import re
+  import nltk
+  from nltk.corpus import stopwords
+  from pyspark.sql import SparkSession
+  from pyspark.sql.functions import udf, explode, split, col
+  from pyspark.sql.types import StringType
+    
+  nltk.download('stopwords')
+  stopwords_set = set(stopwords.words('english'))
+  
+  def preprocess_text(text):
+      if text is None:
+          return ""
+      text = re.sub(r'<[^>]+>', '', text).lower()
+      text = re.sub('[^a-zA-Z\s]', ' ', text)
+      tokens = text.split()
+      filtered_tokens = [word for word in tokens if word not in stopwords_set and len(word) >= 3]
+      return " ".join(filtered_tokens)
 
-4. **Execute word count**
-   ```bash
-   python pyspark_wordcount.py
+  preprocess_udf = udf(preprocess_text, StringType())
+
+  word_counts_df = df.withColumn("CleanedTitle", preprocess_udf(col("Title"))) \
+                   .withColumn("word", explode(split(col("CleanedTitle"), " "))) \
+                   .filter(col("word") != "") \
+                   .groupBy("word") \
+                   .count() \
+                   .sort(col("count").desc())
+
+  word_counts_df.show(20)
+
    
-5. **Write output to CSV**
+4. **Write output to CSV**
    ```bash
    word_counts_df.coalesce(1).write.csv("s3a://stacksample/title_wordcount.csv", header=True, mode="overwrite")
       
-6. **Note: The PySpark job reads from and writes to S3 — ensure proper IAM permissions and bucket paths.**
+5. **Note: The PySpark job reads from and writes to S3 — ensure proper IAM permissions and bucket paths.**
 
 ---
 
