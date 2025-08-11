@@ -127,7 +127,7 @@ It is assumed that the dataset (Questions.csv) is stored in an AWS S3 bucket nam
    ```bash
    df = spark.read.csv("s3a://stacksample/Questions.csv", header=True, inferSchema=True)
 
-3. **Run the following script for preprocessing**
+3. **Copy and paste the following script for preprocessing and wordcount**
   ```bash
   import re
   import nltk
