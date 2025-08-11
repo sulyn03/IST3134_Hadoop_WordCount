@@ -20,6 +20,7 @@ This project compares **Hadoop MapReduce (Java)** and **Apache Spark (PySpark)**
 ---
 
 ## Repository Structure
+```bash
 IST3134-Group-Assignment/
 │
 ├── src/ # Java MapReduce source files
@@ -36,12 +37,11 @@ IST3134-Group-Assignment/
 ├── data/
 │ └── Questions.csv # Sample dataset (not included; see instructions)
 │
-├── output/
-│ └── wordcount_final/ # Hadoop MapReduce output directory
+├── wordcount_final/ # Hadoop MapReduce output directory
 │
 ├── README.md # This file
 └── LICENSE # Optional license file
-
+```
 
 ---
 
