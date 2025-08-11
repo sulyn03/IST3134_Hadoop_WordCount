@@ -16,4 +16,14 @@ def preprocess_text(text):
     filtered_tokens = [word for word in tokens if word not in stopwords_set and len(word) >= 3]
     return " ".join(filtered_tokens)
 
+
 preprocess_udf = udf(preprocess_text, StringType())
+
+
+word_counts_df = df.withColumn("CleanedTitle", preprocess_udf(col("Title"))) \
+                  .withColumn("word", explode(split(col("CleanedTitle"), " "))) \
+                  .filter(col("word") != "") \
+                  .groupBy("word") \
+                  .count() \
+
+                  .sort(col("count").desc())
