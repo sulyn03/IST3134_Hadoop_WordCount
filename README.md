@@ -36,7 +36,7 @@ IST3134-Group-Assignment/
 ├── data/
 │ └── Questions.csv # Sample dataset (not included; see instructions)
 │
-├── wordcount_final.csv # Hadoop MapReduce output
+├── title_wordcount.csv # Hadoop MapReduce output
 ├── wordcount_result.csv # PySpark output
 │
 ├── README.md # This file
