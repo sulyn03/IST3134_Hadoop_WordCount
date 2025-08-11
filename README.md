@@ -31,17 +31,17 @@ IST3134-Group-Assignment/
 ├── build/ # Compiled classes (generated locally)
 ├── wordcount.jar # Hadoop job JAR (generated locally)
 │
-├── scripts/
-│ └── pyspark_preprocessing.py # PySpark preprocessing script
-│ └── pyspark_wordcount.py # PySpark word count script
+├── pyspark_preprocessing.py # PySpark preprocessing script
+├── pyspark_wordcount.py # PySpark word count script
 │
 ├── data/
 │ └── Questions.csv # Sample dataset (not included; see instructions)
 │
-├── wordcount_final/ # Hadoop MapReduce output directory
+├── wordcount_final.csv # Hadoop MapReduce output
+├── wordcount_result.csv # PySpark output
 │
 ├── README.md # This file
-└── LICENSE # Optional license file
+└── LICENSE # License File
 ```
 
 ---
